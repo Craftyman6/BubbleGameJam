@@ -20,7 +20,7 @@ end
 function love.update()
 	timer=timer+1
 	player.update();
-	if timer%60==30 then
+	if timer==30 then
 		table.insert(allBubbles,Bubble(true));
 	end
 
@@ -37,4 +37,5 @@ function love.draw()
 	for i,bubble in ipairs(allBubbles) do
 		bubble.draw(bubble);
 	end
+	love.graphics.print(#allBubbles);
 end

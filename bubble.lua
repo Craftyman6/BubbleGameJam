@@ -49,7 +49,7 @@ function Bubble:update()
 	self.sprite=love.graphics.newImage("Sprites/Bubble/"..bubbleSprites[currentSprite]..".png");
 
 	--chose whether to remove bubble or not
-	if not self.x==mid(-30,self.x,530) then
+	if not (self.x==mid(-30,self.x,530) and self.y==mid(-30,self.y,530))then
 		return true;
 	else
 		return false;
