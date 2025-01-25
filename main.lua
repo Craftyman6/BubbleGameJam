@@ -11,6 +11,10 @@ function love.load()
 	allBubbles={};
 	--timer that incriments every frame
 	timer=0;
+	--Load game music
+	song = love.audio.newSource("Music/RubberDucky.wav", "stream")
+	song:setLooping(true)
+	song:play()
 end
 
 function love.update()
