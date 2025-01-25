@@ -38,7 +38,9 @@ player={
 		player.dx=player.dx*player.friction;
 		player.dy=player.dy*player.friction;
 
-		player.sprite=love.graphics.newImage("Sprites/Player/"..player.sprites[1]..".png");
+		local currentSprite=1;
+
+		player.sprite=love.graphics.newImage("Sprites/Player/"..player.sprites[currentSprite]..".png");
 	end,
 	--draw function
 	draw = function()
