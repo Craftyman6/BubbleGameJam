@@ -2,7 +2,8 @@
 require("misc");
 
 --Player object
-player={
+player=
+{
 	--x position
 	x=0,
 	--y position
@@ -19,10 +20,25 @@ player={
 	sprites={"duck"},
 	--current sprite image object
 	sprite,
+	--Window size minus sprite size
+	windowWidth = 500 - (89 * .5),
+	windowHeight = 500 - (89 * .5),
 	--update function
 	update = function()
 		player.x=player.x+player.dx;
 		player.y=player.y+player.dy;
+		if player.x <= 0 then
+			player.x = 0 
+		end
+		if player.x >= player.windowWidth then
+			player.x = player.windowWidth
+		end
+		if player.y <= 0 then
+			player.y = 0 
+		end
+		if player.y >= player.windowHeight then
+			player.y = player.windowHeight
+		end
 		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
 			player.dy=player.dy-player.speed;
 		end
