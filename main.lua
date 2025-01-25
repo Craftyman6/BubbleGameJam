@@ -12,3 +12,5 @@ end
 function love.draw()
 	player.draw();
 end
+
+-- test
