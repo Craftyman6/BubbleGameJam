@@ -23,6 +23,11 @@ function love.load()
 	song = love.audio.newSource("Music/RubberDucky.wav", "stream")
 	song:setLooping(true)
 	song:play()
+	--Load
+	shopSong = love.audio.newSource("Music/shopTheme.wav", "stream")
+	shopSong:setLooping(true)
+	shopSong:play()
+	shopSong:pause()
 	-- Load Background Image
 	backgroundImage = love.graphics.newImage("Background/waves.png")
 	rect1 = Rectangle(0, 0, 15, 500)
@@ -32,12 +37,16 @@ function love.load()
 	score = score(0)
 
 	level = 0;
+	swapCooldown = 3
 end
 
 
 function love.update()
+	timer=timer+1
 	if mode=="move" then
-		timer=timer+1
+		swapCooldown = 3
+		shopSong:pause()
+		song:play()
 		player.update();
 
 		--make bubbles
@@ -79,8 +88,17 @@ function love.update()
 			getTwoItems()
 		end
 	elseif mode=="item" then
-		--nothing here, actually
+		shopSong:play()
+		song:pause()
+	elseif mode =="modeSwap" then
+		if swapCooldown==0 then
+			mode = "move"
+		end
+		if timer%60==30 then
+			swapCooldown = swapCooldown - 1
+		end
 	end
+
 
 
 end
@@ -108,6 +126,9 @@ function love.draw()
 	if mode=="item" then
 		drawShop()
 	end
+	if mode=="modeSwap" then
+		love.graphics.print(swapCooldown, 250, 250, 0, 2, 2)
+	end
 end
 
 function makeSplash(x,y)
@@ -120,7 +141,8 @@ function love.mousepressed(x,y,button)
 	elseif mode=="item" then
 		if getSelected()>0 then
 			items[getSelected()].redeem()
-			mode="move"
+			mode="modeSwap"
+
 		end
 	end
 end
