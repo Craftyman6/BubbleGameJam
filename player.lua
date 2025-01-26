@@ -23,6 +23,10 @@ player=
 	--Window size minus sprite size
 	windowWidth = 500 - (89 * .5),
 	windowHeight = 500 - (89 * .5),
+	--shoot cooldown
+	cooldown=0,
+	--max shoot cooldown
+	maxCooldown=45,
 	--update function
 	update = function()
 		player.x=player.x+player.dx;
@@ -53,6 +57,8 @@ player=
 		end
 		player.dx=player.dx*player.friction;
 		player.dy=player.dy*player.friction;
+
+		player.cooldown=mid(0,player.cooldown-1,player.maxCooldown);
 
 		local currentSprite=1;
 

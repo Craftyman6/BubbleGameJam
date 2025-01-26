@@ -11,7 +11,6 @@ function Duck:new(px,py,mx,my)
 	self.x=px+self.d.x*30
 	self.y=py+self.d.y*30
 	self.sprite=love.graphics.newImage("Sprites/SmallDuck/"..duckSprites[1]..".png");
-
 end
 
 function Duck:update()
@@ -23,11 +22,19 @@ function Duck:update()
 
 	self.sprite=love.graphics.newImage("Sprites/SmallDuck/"..duckSprites[currentSprite]..".png");
 
+	--check to pop bubbles
+	require "main"
+	for i,bubble in ipairs(allBubbles) do
+		if math.sqrt(math.pow(self.x-bubble.x,2)+math.pow(self.y-bubble.y,2))<30 then
+			bubble.popped=true
+		end
+	end
+
 	--chose whether to remove duck or not
 	return not (self.x==mid(-30,self.x,530) and self.y==mid(-30,self.y,530))
 
 end
 
 function Duck:draw()
-	love.graphics.draw(self.sprite,self.x,self.y,0,.5,.5)
+	love.graphics.draw(self.sprite,self.x,self.y,0,.5,.5,25,25)
 end
