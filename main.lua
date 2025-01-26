@@ -4,6 +4,8 @@ require("items");
 require("misc");
 
 function love.load()
+	love.window.setTitle("Dirty Duck")
+	love.window.setIcon(love.image.newImageData("Sprites/Player/Duck1.png"))
 	mode="start";
 	--set window size
 	love.window.setMode(500,500);
@@ -46,6 +48,11 @@ function love.load()
 	backgroundImages = {
 		love.graphics.newImage("Background/Waves1.png"),
 		love.graphics.newImage("Background/Waves2.png")
+	}
+	-- Load Title image
+	titleImages = {
+		love.graphics.newImage("Sprites/Title/Title1.png"),
+		love.graphics.newImage("Sprites/Title/Title2.png")
 	}
 	rect1 = Rectangle(0, 0, 15, 500)
 	rect2 = Rectangle(0, 0, 500, 15)
@@ -146,7 +153,7 @@ function love.update()
 			swapCooldown = swapCooldown - 1
 		end
 	elseif mode =="start" then
-		player.update();
+		--player.update();
 		introSong:play()
 		loseSong:stop()
 		song:stop()
@@ -207,6 +214,7 @@ function love.draw()
 		rect5:draw()
 		love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
 		love.graphics.print("START", 231, 240)
+		love.graphics.draw(titleImages[getDrawBounce()])
 	end
 	if mode == "lose" then
 		rect6 = Rectangle(185, 200, 130, 100)

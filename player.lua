@@ -5,9 +5,9 @@ require("misc");
 player=
 {
 	--x position
-	x=201,
+	x=230,
 	--y position
-	y=100,
+	y=230,
 	--x momentum
 	dx=0,
 	--y momentum
@@ -25,7 +25,7 @@ player=
 	flp=1,
 	flpoffset=0,
 	--current sprite image object
-	sprite,
+	sprite=love.graphics.newImage("Sprites/Player/Duck1.png"),
 	--Window size minus sprite size
 	windowWidth = 500 - (89 * .5),
 	windowHeight = 500 - (89 * .5),
