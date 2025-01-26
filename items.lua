@@ -68,7 +68,7 @@ function drawShop()
 	for i,id in ipairs(stock) do
 		local item=items[id]
 		if getSelected()==i then
-			love.graphics.setColor(0,0,0)
+			love.graphics.setColor(1,1,1)
 			love.graphics.print(item.name,-100+200*i,370)
 			love.graphics.print(item.desc,-100+200*i,400)
 			love.graphics.setColor(1,1,1)
