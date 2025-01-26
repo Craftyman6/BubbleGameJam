@@ -8,11 +8,13 @@ function love.load()
 	Object = require "classic";
 	require "bubble";
 	require "duck";
+	require "splash";
 	require "rectangle";
 	require("score");
 	--array of all objects
 	allBubbles={};
 	allDucks={};
+	allSplashes={};
 	--timer that incriments every frame
 	timer=0;
 	--Load game music
@@ -56,21 +58,36 @@ function love.update()
 			table.remove(allDucks,i)
 		end
 	end
+
+	--update splashes
+	for i,splash in ipairs(allSplashes) do
+		if splash.update(splash) then
+			table.remove(allSplashes,i)
+		end
+	end
 end
 
 function love.draw()
 	love.graphics.draw(backgroundImage)
-	rect1:draw()
-	rect2:draw()
-	rect3:draw()
-	rect4:draw()
+	--draw splashes
+	for i,splash in ipairs(allSplashes) do
+		splash.draw(splash)
+	end
 	player.draw();
-	score:draw();
 	for i,bubble in ipairs(allBubbles) do
 		bubble.draw(bubble);
 	end
 	for i,duck in ipairs(allDucks) do
 		duck.draw(duck);
 	end
+	rect1:draw()
+	rect2:draw()
+	rect3:draw()
+	rect4:draw()
+	score:draw();
 	love.graphics.print(#allDucks);
+end
+
+function makeSplash(x,y)
+	table.insert(allSplashes,Splash(x,y));
 end

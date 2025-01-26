@@ -43,18 +43,25 @@ player=
 		if player.y >= player.windowHeight then
 			player.y = player.windowHeight
 		end
+		local splash = false;
 		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
 			player.dy=player.dy-player.speed;
+			splash=true;
 		end
 		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
 			player.dx=player.dx-player.speed;
+			splash=true;
 		end
 		if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
 			player.dy=player.dy+player.speed;
+			splash=true;
 		end
 		if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
 			player.dx=player.dx+player.speed;
+			splash=true;
 		end
+
+		if splash and math.random()>.6 then require "main"; makeSplash(player.x+25,player.y+25) end
 		player.dx=player.dx*player.friction;
 		player.dy=player.dy*player.friction;
 

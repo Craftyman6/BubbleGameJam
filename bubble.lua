@@ -2,12 +2,18 @@ require("misc");
 
 Bubble = Object:extend();
 
-bubbleSprites={"Bubble","Evil Bubble"};
+bubbleSpritesString={"Bubble","Evil Bubble"};
+
+bubbleSprites={}
+for i,str in ipairs(bubbleSpritesString) do
+	table.insert(bubbleSprites,love.graphics.newImage("Sprites/Bubble/"..str..".png"))
+end
 
 --Makes new bubble object. Just leave first parameter true to spawn
 --the bubble randomly, leave it false to make a custom bubble
 function Bubble:new(random,x,y,dx,dy,evil)
 	self.popped=false
+	self.sprite=bubbleSprites[1];
 	if random then
 		--my ass is not smart enough to optimize this even though
 		--I'm 100% sure there's a way to
@@ -59,7 +65,7 @@ function Bubble:update()
 	local currentSprite=1;
 	if self.evil then currentSprite=2 end
 
-	self.sprite=love.graphics.newImage("Sprites/Bubble/"..bubbleSprites[currentSprite]..".png");
+	self.sprite=bubbleSprites[currentSprite]
 
 	require "main"
 	if self.popped and self.evil then
