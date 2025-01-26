@@ -232,7 +232,7 @@ function love.draw()
 		love.graphics.print("You lose", 225, 240)
 		love.graphics.print(loseCooldown, 245, 260, 0, 1, 1)
 	end
-	love.graphics.print(timer)
+	--love.graphics.print(timer)
 end
 
 --make splash with t growing the bigger the splash
