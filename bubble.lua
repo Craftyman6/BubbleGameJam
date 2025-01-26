@@ -55,8 +55,9 @@ function Bubble:update()
 	self.x=self.x+self.dx;
 	self.y=self.y+self.dy;
 
+	require "player"
+
 	if self.evil then
-		require "player"
 		local d=angle_move(self.x,self.y,player.x,player.y,1);
 		self.x=self.x+d.x
 		self.y=self.y+d.y
