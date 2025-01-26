@@ -54,6 +54,7 @@ function Bubble:update()
 		playerHealth = playerHealth - 1
 		self.popped = true
 		self.noScore = true
+		makeParticles(self.x+5,self.y+5,15+math.floor(math.random()*2),0)
 	end
 
 	if self.evil then
@@ -62,12 +63,19 @@ function Bubble:update()
 		self.y=self.y+d.y
 	end
 
+	if math.random()*6<math.abs(self.dx) or math.random()*6<math.abs(self.dy) then
+		makeSplash(self.x+10,self.y+10,20)
+	end
+
 	local currentSprite=1;
 	if self.evil then currentSprite=2 end
 
 	self.sprite=bubbleSprites[currentSprite]
 
-	if self.health<=0 then self.popped=true end
+	if self.health<=0 then
+		self.popped=true
+		makeParticles(self.x+5,self.y+5,3+math.floor(math.random()*2),0)
+	end
 
 	if self.popped and self.evil and self.noScore == false then
 		score:update(2)
