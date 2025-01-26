@@ -5,6 +5,8 @@ Duck = Object:extend();
 
 duckSpritesString={"Duck"};
 
+duckSound = love.audio.newSource("Music/shoot_cc.wav", "static")
+
 duckSprites={}
 for i,str in ipairs(duckSpritesString) do
 	table.insert(duckSprites,love.graphics.newImage("Sprites/SmallDuck/"..str..".png"))
@@ -18,6 +20,13 @@ function Duck:new(px,py,mx,my,size,speed)
 	self.y=py+self.d.y*30
 	self.sprite=duckSprites[1]
 	self.size=size
+	love.audio.setEffect("shootEffect", {
+		type = "distortion",
+		gain = math.random()*.5,
+		edge = math.random()*.25,
+	})
+	duckSound:setEffect("shootEffect")
+	duckSound:play()
 end
 
 function Duck:update()
