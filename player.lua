@@ -38,7 +38,7 @@ player=
 		--increase duck size
 		size=.5,
 		--decrease cooldown
-		maxCooldown=5
+		maxCooldown=45
 	},
 	--update function
 	update = function()
