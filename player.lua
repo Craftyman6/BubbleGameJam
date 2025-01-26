@@ -74,7 +74,7 @@ player=
 			splash=true;
 		end
 
-		if splash and math.random()>.6 then require "main"; makeSplash(player.x+25,player.y+25) end
+		if splash and math.random()>.6 then require "main"; makeSplash(player.x+25,player.y+25,15) end
 		player.dx=player.dx*player.friction;
 		player.dy=player.dy*player.friction;
 
