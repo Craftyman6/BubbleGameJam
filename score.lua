@@ -6,8 +6,8 @@ function score:new(score)
 	self.score = score
 end
 
-function score:update()
-	self.score = self.score + 1
+function score:update(updateScore)
+	self.score = self.score + updateScore
 end
 
 function score:draw()

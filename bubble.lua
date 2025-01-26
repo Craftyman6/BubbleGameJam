@@ -49,7 +49,7 @@ function Bubble:update()
 	self.x=self.x+self.dx;
 	self.y=self.y+self.dy;
 
-	aif self.evil then
+	if self.evil then
 		require "player"
 		local d=angle_move(self.x,self.y,player.x,player.y,1);
 		self.x=self.x+d.x
@@ -60,6 +60,14 @@ function Bubble:update()
 	if self.evil then currentSprite=2 end
 
 	self.sprite=love.graphics.newImage("Sprites/Bubble/"..bubbleSprites[currentSprite]..".png");
+
+	require "main"
+	if self.popped and self.evil then
+		score:update(2)
+	end
+	if self.popped and self.evil == false then 
+		score:update(1)
+	end
 
 	--chose whether to remove bubble or not
 	return not (self.x==mid(-30,self.x,530) and self.y==mid(-30,self.y,530)) or self.popped
