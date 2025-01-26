@@ -3,10 +3,18 @@ require("main")
 
 Duck = Object:extend();
 
+
+duckSpritesString={"Duck"};
+
+duckSound = love.audio.newSource("Music/shoot_cc.wav", "static")
+
+
+
 duckSprites={
 	love.graphics.newImage("Sprites/SmallDuck/SmallDuck1.png"),
 	love.graphics.newImage("Sprites/SmallDuck/SmallDuck2.png")
 }
+
 
 --Makes a new duck object
 function Duck:new(px,py,mx,my,size,speed)
@@ -16,8 +24,16 @@ function Duck:new(px,py,mx,my,size,speed)
 	self.y=py+self.d.y*30
 	self.sprite=duckSprites[1]
 	self.size=size
+	love.audio.setEffect("shootEffect", {
+		type = "distortion",
+		gain = math.random()*.5,
+		edge = math.random()*.25,
+	})
+	duckSound:setEffect("shootEffect")
+	duckSound:play()
 	self.flp=1
 	self.flpoffset=0
+
 end
 
 function Duck:update()

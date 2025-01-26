@@ -1,6 +1,7 @@
 --include main.lua and misc.lua
 require("misc");
 
+
 --Player object
 player=
 {
@@ -80,7 +81,8 @@ player=
 			splash=true;
 		end
 
-		if splash and math.random()>.6 then require "main"; makeSplash(player.x+25,player.y+35,15) end
+		if splash and math.random()>.6 then require "main"; makeSplash(player.x+25,player.y+25,15) end
+
 		player.dx=player.dx*player.friction;
 		player.dy=player.dy*player.friction;
 

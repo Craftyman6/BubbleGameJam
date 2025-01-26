@@ -44,6 +44,9 @@ function love.load()
 	loseSong:setLooping(false)
 	loseSong:play()
 	loseSong:pause()
+	--Load Sound Effects
+	upgradeSound = love.audio.newSource("Music/upgrade_cc.wav", "static")
+	itemSound =love.audio.newSource("Music/item_cc.wav", "static")
 	-- Load Background Image
 	backgroundImages = {
 		love.graphics.newImage("Background/Waves1.png"),
@@ -63,6 +66,7 @@ function love.load()
 	level = 0;
 	swapCooldown = 3
 	loseCooldown = 9
+	soundPlayed = false
 	--Player's health
 	playerHealth = 10
 end
@@ -74,6 +78,7 @@ function love.update()
 		timer=timer+1
 		swapCooldown = 3
 		loseCooldown = 9
+		soundPlayed = false
 		introSong:stop()
 		shopSong:pause()
 		song:play()
@@ -143,6 +148,10 @@ function love.update()
 			mode = "lose"
 		end
 	elseif mode=="item" then
+		if soundPlayed == false then
+			upgradeSound:play()
+			soundPlayed = true
+		end
 		shopSong:play()
 		song:pause()
 	elseif mode =="modeSwap" then
@@ -237,6 +246,7 @@ function love.mousepressed(x,y,button)
 	elseif mode=="item" then
 		if getSelected()>0 then
 			items[stock[getSelected()]].redeem()
+			itemSound:play()
 			mode="modeSwap"
 		end
 	elseif mode =="start" then

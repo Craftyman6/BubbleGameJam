@@ -2,12 +2,19 @@ require("misc");
 
 Bubble = Object:extend();
 
+
+bubbleSpritesString={"Bubble","Evil Bubble"};
+
+bubbleSound = love.audio.newSource("Music/pop_cc.wav", "static")
+
+
 bubbleSprites={
 	love.graphics.newImage("Sprites/Bubble/Bubble1.png"),
 	love.graphics.newImage("Sprites/Bubble/Bubble2.png"),
 	love.graphics.newImage("Sprites/Bubble/EvilBubble1.png"),
 	love.graphics.newImage("Sprites/Bubble/EvilBubble2.png")
 }
+
 
 --Makes new bubble object. Just leave first parameter true to spawn
 --the bubble randomly, leave it false to make a custom bubble
@@ -83,6 +90,17 @@ function Bubble:update()
 	if self.popped and self.evil == false and self.noScore == false then 
 		score:update(1)
 	end
+
+	if self.popped then
+		love.audio.setEffect("popEffect", {
+			type = "distortion",
+			gain = math.random()*.25,
+			edge = math.random()*.25,
+		})
+		bubbleSound:setEffect("popEffect")
+		bubbleSound:play()
+	end
+
 
 	--chose whether to remove bubble or not
 	return not (self.x==mid(-30,self.x,530) and self.y==mid(-30,self.y,530)) or self.popped
