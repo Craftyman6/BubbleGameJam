@@ -30,7 +30,8 @@ function love.load()
 	score = score(0)
 end
 
-function love.update()
+function love.update(dt)
+
 	timer=timer+1
 	player.update();
 
@@ -40,6 +41,7 @@ function love.update()
 	end
 
 	--update bubbles
+
 	for i,bubble in ipairs(allBubbles) do
 		if bubble.update(bubble) then
 			table.remove(allBubbles,i);
@@ -65,6 +67,8 @@ function love.update()
 			table.remove(allSplashes,i)
 		end
 	end
+
+
 end
 
 function love.draw()
