@@ -1,6 +1,6 @@
 --include other files
 require("player");
-require("score");
+--require("score");
 
 function love.load()
 	--set window size
@@ -21,7 +21,7 @@ function love.load()
 	-- Load Background Image
 	background = love.graphics.newImage("Background/waves.png")
 	--
-	score = score(0)
+	--score = score(0)
 end
 
 function love.update()
@@ -57,7 +57,7 @@ end
 function love.draw()
 	love.graphics.draw(background)
 	player.draw();
-	score.draw();
+	--score.draw();
 	for i,bubble in ipairs(allBubbles) do
 		bubble.draw(bubble);
 	end
