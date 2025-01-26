@@ -3,6 +3,6 @@ function mid(a,b,c)
 end
 
 function angle_move(x,y, targetx, targety, speed)
-	local a=atan2(x-targetx,y-targety)
-	return {x=-speed*cos(a), y=-speed*sin(a)}
+	local a=math.atan2(x-targetx,y-targety)
+	return {x=-speed*math.sin(a), y=-speed*math.cos(a)}
 end
