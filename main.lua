@@ -99,7 +99,8 @@ function love.update()
 			end
 		end
 
-		if score.score>5+math.pow(level*10,1.5) then
+		--level up
+		if score.score>=getNextLevelScore() then
 			level=level+1
 			--mode to item and stock them
 			mode="item"
@@ -127,10 +128,13 @@ function love.draw()
 	for i,splash in ipairs(allSplashes) do
 		splash.draw(splash)
 	end
+	--draw player
 	player.draw();
+	--draw bubbles
 	for i,bubble in ipairs(allBubbles) do
 		bubble.draw(bubble);
 	end
+	--draw ducks
 	for i,duck in ipairs(allDucks) do
 		duck.draw(duck);
 	end
@@ -150,8 +154,9 @@ function love.draw()
 	love.graphics.print(timer)
 end
 
-function makeSplash(x,y)
-	table.insert(allSplashes,Splash(x,y));
+--make splash with t growing the bigger the splash
+function makeSplash(x,y,t)
+	table.insert(allSplashes,Splash(x,y,t));
 end
 
 function love.mousepressed(x,y,button)
@@ -169,4 +174,8 @@ end
 function getDuckOffsets(a)
 	local size = player.upgrades.size
 	return {x=35*math.cos(a)*size,y=35*math.sin(a)*size}
+end
+
+function getNextLevelScore()
+	return 10+math.floor(math.pow(level*5,1.5))
 end
