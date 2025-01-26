@@ -8,6 +8,7 @@ bubbleSprites={"Bubble","Evil Bubble"};
 --the bubble randomly, leave it false to make a custom bubble
 function Bubble:new(random,x,y,dx,dy,evil)
 	self.popped=false
+	self.sprite=love.graphics.newImage("Sprites/Bubble/"..bubbleSprites[1]..".png");
 	if random then
 		--my ass is not smart enough to optimize this even though
 		--I'm 100% sure there's a way to
@@ -49,7 +50,7 @@ function Bubble:update()
 	self.x=self.x+self.dx;
 	self.y=self.y+self.dy;
 
-	aif self.evil then
+	if self.evil then
 		require "player"
 		local d=angle_move(self.x,self.y,player.x,player.y,1);
 		self.x=self.x+d.x

@@ -25,7 +25,7 @@ function Duck:update()
 	--check to pop bubbles
 	require "main"
 	for i,bubble in ipairs(allBubbles) do
-		if math.sqrt(math.pow(self.x-bubble.x,2)+math.pow(self.y-bubble.y,2))<30 then
+		if math.sqrt(math.pow(self.x-bubble.x,2)+math.pow(self.y-bubble.y,2))<35 then
 			bubble.popped=true
 		end
 	end

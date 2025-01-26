@@ -9,9 +9,11 @@ function love.load()
 	Object = require "classic";
 	require "bubble";
 	require "duck";
+	require "splash";
 	--array of all objects
 	allBubbles={};
 	allDucks={};
+	allSplashes={};
 	--timer that incriments every frame
 	timer=0;
 	--Load game music
@@ -52,10 +54,24 @@ function love.update()
 			table.remove(allDucks,i)
 		end
 	end
+
+	--update splashes
+	for i,splash in ipairs(allSplashes) do
+		if splash.update(splash) then
+			table.remove(allSplashes,i)
+		end
+	end
 end
 
 function love.draw()
 	love.graphics.draw(background)
+
+	--draw splashes
+	for i,splash in ipairs(allSplashes) do
+		splash.draw(splash)
+	end
+
+
 	player.draw();
 	--score.draw();
 	for i,bubble in ipairs(allBubbles) do
@@ -65,4 +81,8 @@ function love.draw()
 		duck.draw(duck);
 	end
 	love.graphics.print(#allDucks);
+end
+
+function makeSplash(x,y)
+	table.insert(allSplashes,Splash(x,y));
 end
