@@ -5,7 +5,7 @@ Particle = Object:extend()
 function setParticleColor(cid)
 	if cid==1 then
 		--duck
-		love.graphics.setColor(1,1,.5)
+		love.graphics.setColor(1,.8,0)
 	elseif cid==0 then
 		--bubble
 		love.graphics.setColor(1,1,1)

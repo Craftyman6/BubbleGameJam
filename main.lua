@@ -33,7 +33,10 @@ function love.load()
 	shopSong:play()
 	shopSong:pause()
 	-- Load Background Image
-	backgroundImage = love.graphics.newImage("Background/waves.png")
+	backgroundImages = {
+		love.graphics.newImage("Background/Waves1.png"),
+		love.graphics.newImage("Background/Waves2.png")
+	}
 	rect1 = Rectangle(0, 0, 15, 500)
 	rect2 = Rectangle(0, 0, 500, 15)
 	rect3 = Rectangle(485, 0, 15, 500)
@@ -57,7 +60,7 @@ function love.update()
 
 		--make bubbles
 		if timer>nextBubble then
-			table.insert(allBubbles,Bubble(math.random()<timer/50000,math.min(4,1+math.floor(timer/5000))));
+			table.insert(allBubbles,Bubble(math.random()>timer/50000,math.min(4,1+math.floor(timer/5000))));
 			nextBubble=timer+60-math.min(math.floor(timer/1000),30)
 		end
 
@@ -129,7 +132,7 @@ function love.update()
 end
 
 function love.draw()
-	love.graphics.draw(backgroundImage)
+	love.graphics.draw(backgroundImages[getDrawBounce()])
 	--draw splashes
 	for i,splash in ipairs(allSplashes) do
 		splash.draw(splash)

@@ -2,12 +2,12 @@ require("misc");
 
 Bubble = Object:extend();
 
-bubbleSpritesString={"Bubble","Evil Bubble"};
-
-bubbleSprites={}
-for i,str in ipairs(bubbleSpritesString) do
-	table.insert(bubbleSprites,love.graphics.newImage("Sprites/Bubble/"..str..".png"))
-end
+bubbleSprites={
+	love.graphics.newImage("Sprites/Bubble/Bubble1.png"),
+	love.graphics.newImage("Sprites/Bubble/Bubble2.png"),
+	love.graphics.newImage("Sprites/Bubble/EvilBubble1.png"),
+	love.graphics.newImage("Sprites/Bubble/EvilBubble2.png")
+}
 
 --Makes new bubble object. Just leave first parameter true to spawn
 --the bubble randomly, leave it false to make a custom bubble
@@ -63,12 +63,12 @@ function Bubble:update()
 		self.y=self.y+d.y
 	end
 
-	if math.random()*6<math.abs(self.dx) or math.random()*6<math.abs(self.dy) then
-		makeSplash(self.x+10,self.y+10,20)
+	if math.random()*10<math.abs(self.dx) or math.random()*10<math.abs(self.dy) then
+		makeSplash(self.x+13,self.y+15,10)
 	end
 
-	local currentSprite=1;
-	if self.evil then currentSprite=2 end
+	local currentSprite=getDrawBounce();
+	if self.evil then currentSprite=currentSprite+2 end
 
 	self.sprite=bubbleSprites[currentSprite]
 
@@ -89,5 +89,5 @@ function Bubble:update()
 end
 
 function Bubble:draw()
-	love.graphics.draw(self.sprite,self.x,self.y,0,.3,.3);
+	love.graphics.draw(self.sprite,self.x,self.y,0,.4,.4);
 end

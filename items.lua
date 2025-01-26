@@ -1,11 +1,10 @@
 require("player");
+require("misc");
 
 stock={}
 
-dishwasherImage=love.graphics.newImage("Sprites/Items/Dishwasher.png");
-
 function getItemSprite(str)
-	return love.graphics.newImage("Sprites/Items/"..str..".png")
+	return love.graphics.newImage("Sprites/Items/"..str..getDrawBounce()..".png")
 end
 
 items={
@@ -13,43 +12,37 @@ items={
 		name="Bowl",
 		desc="Shoot three ducks at once",
 		available=function() return not player.upgrades.triple end,
-		redeem=function() player.upgrades.triple=true end,
-		sprite=getItemSprite("Bowl")
+		redeem=function() player.upgrades.triple=true end
 	},
 	{
 		name="Spork",
 		desc="Shoot ducks behind you",
 		available=function() return not player.upgrades.backwards end,
-		redeem=function() player.upgrades.backwards=true end,
-		sprite=getItemSprite("Spork")
+		redeem=function() player.upgrades.backwards=true end
 	},
 	{
 		name="Plate",
 		desc="Swim faster",
 		available=function() return not player.upgrades.boost end,
-		redeem=function() player.upgrades.boost=true; player.friction=.8 end,
-		sprite=getItemSprite("Plate")
+		redeem=function() player.upgrades.boost=true; player.friction=.8 end
 	},
 	{
 		name="Spoon",
 		desc="Ducks swim faster",
 		available=function() return true end,
-		redeem=function() player.upgrades.speed=player.upgrades.speed+2 end,
-		sprite=getItemSprite("Spoon")
+		redeem=function() player.upgrades.speed=player.upgrades.speed+2 end
 	},
 	{
 		name="Sponge",
 		desc="Larger ducks",
 		available=function() return true end,
-		redeem=function() player.upgrades.size=player.upgrades.size+.2 end,
-		sprite=getItemSprite("Sponge")
+		redeem=function() player.upgrades.size=player.upgrades.size+.2 end
 	},
 	{
 		name="Chopsticks",
 		desc="Shoot ducks more rapidly",
 		available=function() return player.upgrades.maxCooldown>5 end,
-		redeem=function() player.upgrades.maxCooldown=player.upgrades.maxCooldown-5 end,
-		sprite=getItemSprite("Chopsticks")
+		redeem=function() player.upgrades.maxCooldown=player.upgrades.maxCooldown-5 end
 	}
 }
 
@@ -71,7 +64,7 @@ end
 
 function drawShop()
 	require "main"
-	love.graphics.draw(dishwasherImage,-50,20)
+	love.graphics.draw(getItemSprite("Dishwasher"),-50,20)
 	for i,id in ipairs(stock) do
 		local item=items[id]
 		if getSelected()==i then
@@ -82,7 +75,7 @@ function drawShop()
 		else
 			love.graphics.setColor(.5,.5,.5)
 		end
-		love.graphics.draw(item.sprite,-100+200*i,190+math.sin(i+love.timer.getTime()*5)*20)
+		love.graphics.draw(getItemSprite(item.name),-100+200*i,190+math.sin(i+love.timer.getTime()*5)*10)
 		love.graphics.setColor(1,1,1)
 	end
 end
