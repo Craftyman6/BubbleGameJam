@@ -2,11 +2,12 @@ require("misc");
 
 Bubble = Object:extend();
 
-bubbleSprites={"Bubble"};
+bubbleSprites={"Bubble","Evil Bubble"};
 
 --Makes new bubble object. Just leave first parameter true to spawn
 --the bubble randomly, leave it false to make a custom bubble
-function Bubble:new(random,x,y,dx,dy)
+function Bubble:new(random,x,y,dx,dy,evil)
+	self.popped=false
 	if random then
 		--my ass is not smart enough to optimize this even though
 		--I'm 100% sure there's a way to
@@ -32,28 +33,36 @@ function Bubble:new(random,x,y,dx,dy)
 		self.y=get[2];
 		self.dx=get[3];
 		self.dy=get[4];
+		self.evil=math.random()>.5
 	else
 		self.x=x;
 		self.y=y;
 		self.dx=dx;
 		self.dy=dy;
+		self.evil=evil
 	end
+
+
 end
 
 function Bubble:update()
 	self.x=self.x+self.dx;
 	self.y=self.y+self.dy;
 
+	aif self.evil then
+		require "player"
+		local d=angle_move(self.x,self.y,player.x,player.y,1);
+		self.x=self.x+d.x
+		self.y=self.y+d.y
+	end
+
 	local currentSprite=1;
+	if self.evil then currentSprite=2 end
 
 	self.sprite=love.graphics.newImage("Sprites/Bubble/"..bubbleSprites[currentSprite]..".png");
 
 	--chose whether to remove bubble or not
-	if not (self.x==mid(-30,self.x,530) and self.y==mid(-30,self.y,530))then
-		return true;
-	else
-		return false;
-	end
+	return not (self.x==mid(-30,self.x,530) and self.y==mid(-30,self.y,530)) or self.popped
 end
 
 function Bubble:draw()

@@ -27,8 +27,9 @@ end
 function love.update()
 	timer=timer+1
 	player.update();
-	if timer%60==30 then
 
+	--make bubbles
+	if timer%60==30 then
 		table.insert(allBubbles,Bubble(true));
 	end
 
@@ -39,18 +40,17 @@ function love.update()
 		end
 	end
 
+	--make ducks
+	if love.mouse.isDown(1) and player.cooldown==0 then
+		table.insert(allDucks,Duck(player.x,player.y,love.mouse.getX(),love.mouse.getY()))
+		player.cooldown=player.maxCooldown
+	end
+
 	--update ducks
 	for i,duck in ipairs(allDucks) do
 		if duck.update(duck) then
 			table.remove(allDucks,i)
 		end
-	end
-end
-
-function love.mousepressed(x,y,button)
-	if button==1 then
-		print("ran");
-		table.insert(allDucks,Duck(player.x,player.y,x,y))
 	end
 end
 
