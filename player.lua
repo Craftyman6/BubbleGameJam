@@ -28,9 +28,9 @@ player=
 	--array of upgrades
 	upgrades={
 		--three ducks at a time
-		triple=false,
+		triple=true,
 		--shoot backwards as well
-		backwards=false,
+		backwards=true,
 		--boost to player speed
 		boost=false,
 		--increase duck speed
