@@ -4,7 +4,7 @@ require("items");
 require("misc");
 
 function love.load()
-	mode="move";
+	mode="start";
 	--set window size
 	love.window.setMode(500,500);
 	--load objects
@@ -25,11 +25,19 @@ function love.load()
 	song = love.audio.newSource("Music/RubberDucky.wav", "stream")
 	song:setLooping(true)
 	song:play()
-	--Load
+	song:pause()
+	--Load music
 	shopSong = love.audio.newSource("Music/shopTheme.wav", "stream")
 	shopSong:setLooping(true)
 	shopSong:play()
 	shopSong:pause()
+	introSong = love.audio.newSource("Music/intro.wav", "stream")
+	introSong:setLooping(true)
+	introSong:play()
+	introSong:pause()
+	loseSong = love.audio.newSource("Music/lose.wav", "static")
+	loseSong:play()
+	loseSong:pause()
 	-- Load Background Image
 	backgroundImage = love.graphics.newImage("Background/waves.png")
 	rect1 = Rectangle(0, 0, 15, 500)
@@ -41,7 +49,7 @@ function love.load()
 	level = 0;
 	swapCooldown = 3
 	--Player's health
-	playerHealth = 5
+	playerHealth = 10
 end
 
 
@@ -49,6 +57,7 @@ function love.update()
 	timer=timer+1
 	if mode=="move" then
 		swapCooldown = 3
+		introSong:stop()
 		shopSong:pause()
 		song:play()
 		player.update();
@@ -106,6 +115,9 @@ function love.update()
 			mode="item"
 			getTwoItems()
 		end
+		if playerHealth <= 0 then
+			mode = "lose"
+		end
 	elseif mode=="item" then
 		shopSong:play()
 		song:pause()
@@ -116,6 +128,17 @@ function love.update()
 		if timer%60==30 then
 			swapCooldown = swapCooldown - 1
 		end
+	elseif mode =="start" then
+		player.update();
+		introSong:play()
+		loseSong:stop()
+		song:stop()
+		shopSong:stop()
+	elseif mode == "lose" then
+		song:stop()
+		shopSong:stop()
+		introSong:stop()
+		loseSong:play()
 	end
 
 
@@ -151,6 +174,12 @@ function love.draw()
 	if mode=="modeSwap" then
 		love.graphics.print(swapCooldown, 250, 250, 0, 2, 2)
 	end
+	if mode=="start" then
+		rect5 = Rectangle(200, 225, 100, 50)
+		rect5:draw()
+		love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
+		love.graphics.print("START", 231, 240)
+	end
 	love.graphics.print(timer)
 end
 
@@ -166,7 +195,10 @@ function love.mousepressed(x,y,button)
 		if getSelected()>0 then
 			items[stock[getSelected()]].redeem()
 			mode="modeSwap"
-
+		end
+	elseif mode =="start" then
+		if x >= 200 and x <= 300 and y >= 225 and y <= 275 then
+			mode = "modeSwap"
 		end
 	end
 end
