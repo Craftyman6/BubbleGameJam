@@ -2,14 +2,16 @@
 
 score = Object:extend();
 
-function score.new(score)
+function score:new(score)
 	self.score = score
 end
 
-function score.update()
+function score:update()
 	self.score = self.score + 1
 end
 
-function score.draw()
-	love.graphics.print("Score" + self.score, 200, 0)
+function score:draw()
+	scoreString = string.format("Score: %d", self.score)
+	love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
+	love.graphics.print(scoreString, 225, 0)
 end

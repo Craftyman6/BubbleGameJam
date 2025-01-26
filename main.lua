@@ -1,6 +1,5 @@
 --include other files
 require("player");
---require("score");
 
 function love.load()
 	--set window size
@@ -10,6 +9,8 @@ function love.load()
 	require "bubble";
 	require "duck";
 	require "splash";
+	require "rectangle";
+	require("score");
 	--array of all objects
 	allBubbles={};
 	allDucks={};
@@ -21,9 +22,12 @@ function love.load()
 	song:setLooping(true)
 	song:play()
 	-- Load Background Image
-	background = love.graphics.newImage("Background/waves.png")
-	--
-	--score = score(0)
+	backgroundImage = love.graphics.newImage("Background/waves.png")
+	rect1 = Rectangle(0, 0, 15, 500)
+	rect2 = Rectangle(0, 0, 500, 15)
+	rect3 = Rectangle(485, 0, 15, 500)
+	rect4 = Rectangle(0, 485, 500, 15)
+	score = score(0)
 end
 
 function love.update()
@@ -64,22 +68,23 @@ function love.update()
 end
 
 function love.draw()
-	love.graphics.draw(background)
-
+	love.graphics.draw(backgroundImage)
 	--draw splashes
 	for i,splash in ipairs(allSplashes) do
 		splash.draw(splash)
 	end
-
-
 	player.draw();
-	--score.draw();
 	for i,bubble in ipairs(allBubbles) do
 		bubble.draw(bubble);
 	end
 	for i,duck in ipairs(allDucks) do
 		duck.draw(duck);
 	end
+	rect1:draw()
+	rect2:draw()
+	rect3:draw()
+	rect4:draw()
+	score:draw();
 	love.graphics.print(#allDucks);
 end
 

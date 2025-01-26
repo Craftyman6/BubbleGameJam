@@ -2,7 +2,12 @@ require("misc");
 
 Duck = Object:extend();
 
-duckSprites={"Duck"};
+duckSpritesString={"Duck"};
+
+duckSprites={}
+for i,str in ipairs(duckSpritesString) do
+	table.insert(duckSprites,love.graphics.newImage("Sprites/SmallDuck/"..str..".png"))
+end
 
 --Makes a new duck object
 function Duck:new(px,py,mx,my)
@@ -10,7 +15,7 @@ function Duck:new(px,py,mx,my)
 	self.d=angle_move(px,py,mx,my,1);
 	self.x=px+self.d.x*30
 	self.y=py+self.d.y*30
-	self.sprite=love.graphics.newImage("Sprites/SmallDuck/"..duckSprites[1]..".png");
+	self.sprite=duckSprites[1]
 end
 
 function Duck:update()
@@ -20,7 +25,7 @@ function Duck:update()
 
 	local currentSprite=1
 
-	self.sprite=love.graphics.newImage("Sprites/SmallDuck/"..duckSprites[currentSprite]..".png");
+	self.sprite=duckSprites[currentSprite]
 
 	--check to pop bubbles
 	require "main"
