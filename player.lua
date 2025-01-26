@@ -5,9 +5,9 @@ require("misc");
 player=
 {
 	--x position
-	x=0,
+	x=201,
 	--y position
-	y=0,
+	y=100,
 	--x momentum
 	dx=0,
 	--y momentum

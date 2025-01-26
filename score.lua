@@ -6,6 +6,10 @@ function score:new(score)
 	self.score = score
 end
 
+function score:set(score)
+	self.score = score
+end
+
 function score:update(updateScore)
 	self.score = self.score + updateScore
 end

@@ -4,7 +4,7 @@ require("items");
 require("misc");
 
 function love.load()
-	mode="move";
+	mode="start";
 	--set window size
 	love.window.setMode(500,500);
 	--load objects
@@ -21,17 +21,27 @@ function love.load()
 	allSplashes={};
 	allParticles={};
 	--timer that incriments every frame
+	gameTimer=0;
 	timer=0;
 	nextBubble=0;
 	--Load game music
 	song = love.audio.newSource("Music/RubberDucky.wav", "stream")
 	song:setLooping(true)
 	song:play()
-	--Load
+	song:pause()
+	--Load music
 	shopSong = love.audio.newSource("Music/shopTheme.wav", "stream")
 	shopSong:setLooping(true)
 	shopSong:play()
 	shopSong:pause()
+	introSong = love.audio.newSource("Music/intro.wav", "stream")
+	introSong:setLooping(true)
+	introSong:play()
+	introSong:pause()
+	loseSong = love.audio.newSource("Music/lose.wav", "static")
+	loseSong:setLooping(false)
+	loseSong:play()
+	loseSong:pause()
 	-- Load Background Image
 	backgroundImages = {
 		love.graphics.newImage("Background/Waves1.png"),
@@ -45,15 +55,19 @@ function love.load()
 
 	level = 0;
 	swapCooldown = 3
+	loseCooldown = 9
 	--Player's health
-	playerHealth = 5
+	playerHealth = 10
 end
 
 
 function love.update()
-	timer=timer+1
+	gameTimer=gameTimer+1
 	if mode=="move" then
+		timer=timer+1
 		swapCooldown = 3
+		loseCooldown = 9
+		introSong:stop()
 		shopSong:pause()
 		song:play()
 		player.update();
@@ -118,6 +132,9 @@ function love.update()
 			mode="item"
 			getTwoItems()
 		end
+		if playerHealth <= 0 then
+			mode = "lose"
+		end
 	elseif mode=="item" then
 		shopSong:play()
 		song:pause()
@@ -125,8 +142,26 @@ function love.update()
 		if swapCooldown==0 then
 			mode = "move"
 		end
-		if timer%60==30 then
+		if gameTimer%60==30 then
 			swapCooldown = swapCooldown - 1
+		end
+	elseif mode =="start" then
+		player.update();
+		introSong:play()
+		loseSong:stop()
+		song:stop()
+		shopSong:stop()
+	elseif mode == "lose" then
+		song:stop()
+		shopSong:stop()
+		introSong:stop()
+		loseSong:play()
+		if loseCooldown==0 then
+			mode = "start"
+			gameReset()
+		end
+		if gameTimer%60==30 then
+			loseCooldown = loseCooldown - 1
 		end
 	end
 end
@@ -162,7 +197,23 @@ function love.draw()
 		drawShop()
 	end
 	if mode=="modeSwap" then
-		love.graphics.print(swapCooldown, 250, 250, 0, 2, 2)
+		rect7 = Rectangle(225, 15, 50, 30)
+		rect7:draw()
+		love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
+		love.graphics.print(swapCooldown, 247, 21, 0, 1, 1)
+	end
+	if mode=="start" then
+		rect5 = Rectangle(200, 225, 100, 50)
+		rect5:draw()
+		love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
+		love.graphics.print("START", 231, 240)
+	end
+	if mode == "lose" then
+		rect6 = Rectangle(185, 200, 130, 100)
+		rect6:draw()
+		love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
+		love.graphics.print("You lose", 225, 240)
+		love.graphics.print(loseCooldown, 245, 260, 0, 1, 1)
 	end
 	love.graphics.print(timer)
 end
@@ -179,7 +230,10 @@ function love.mousepressed(x,y,button)
 		if getSelected()>0 then
 			items[stock[getSelected()]].redeem()
 			mode="modeSwap"
-
+		end
+	elseif mode =="start" then
+		if x >= 200 and x <= 300 and y >= 225 and y <= 275 then
+			mode = "modeSwap"
 		end
 	end
 end
@@ -197,4 +251,30 @@ function makeParticles(x,y,a,cid)
 	for i=1,a do
 		table.insert(allParticles,Particle(x,y,cid))
 	end
+end
+
+function gameReset()
+	player.x = 201
+	player.y = 100
+	player.dx = 0  
+	player.dy = 0 
+	player.friction = 0.7 
+	player.speed = 1
+	player.cooldown = 0
+	player.upgrades[1] = false
+	player.upgrades[2] = false
+	player.upgrades[3] = false
+	player.upgrades[4] = 3
+	player.upgrades[5] = 0.5
+	player.upgrades[6] = 45
+	allBubbles={}
+	allDucks={}
+	allSplashes={}
+	allParticles={}
+	playerHealth = 10
+	timer = 0 
+	gameTimer = 0
+	nextBubble = 0
+	score:new(0)
+	level = 0;
 end
