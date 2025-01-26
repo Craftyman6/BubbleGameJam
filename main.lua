@@ -55,7 +55,7 @@ function love.update()
 
 		--make bubbles
 		if timer>nextBubble then
-			table.insert(allBubbles,Bubble(math.random()>timer/50000,1))--+math.floor(timer/2000)));
+			table.insert(allBubbles,Bubble(math.random()>timer/50000,1+math.floor(timer/2000)));
 			nextBubble=timer+60-math.min(math.floor(timer/1000),30)
 		end
 
