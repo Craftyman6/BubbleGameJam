@@ -25,8 +25,21 @@ player=
 	windowHeight = 500 - (89 * .5),
 	--shoot cooldown
 	cooldown=0,
-	--max shoot cooldown
-	maxCooldown=45,
+	--array of upgrades
+	upgrades={
+		--three ducks at a time
+		triple=false,
+		--shoot backwards as well
+		backwards=false,
+		--boost to player speed
+		boost=false,
+		--increase duck speed
+		speed=5,
+		--increase duck size
+		size=.5,
+		--decrease cooldown
+		maxCooldown=45
+	},
 	--update function
 	update = function()
 		player.x=player.x+player.dx;
@@ -65,7 +78,7 @@ player=
 		player.dx=player.dx*player.friction;
 		player.dy=player.dy*player.friction;
 
-		player.cooldown=mid(0,player.cooldown-1,player.maxCooldown);
+		player.cooldown=mid(0,player.cooldown-1,player.upgrades.maxCooldown);
 
 		local currentSprite=1;
 

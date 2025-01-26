@@ -1,7 +1,9 @@
 --include other files
 require("player");
+require("items");
 
 function love.load()
+	mode="move";
 	--set window size
 	love.window.setMode(500,500);
 	--load objects
@@ -28,42 +30,55 @@ function love.load()
 	rect3 = Rectangle(485, 0, 15, 500)
 	rect4 = Rectangle(0, 485, 500, 15)
 	score = score(0)
+
+	level = 0;
 end
 
 function love.update()
-	timer=timer+1
-	player.update();
+	if mode=="move" then
+		timer=timer+1
+		player.update();
 
-	--make bubbles
-	if timer%60==30 then
-		table.insert(allBubbles,Bubble(true));
-	end
-
-	--update bubbles
-	for i,bubble in ipairs(allBubbles) do
-		if bubble.update(bubble) then
-			table.remove(allBubbles,i);
+		--make bubbles
+		if timer%60==30 then
+			table.insert(allBubbles,Bubble(true));
 		end
-	end
 
-	--make ducks
-	if love.mouse.isDown(1) and player.cooldown==0 then
-		table.insert(allDucks,Duck(player.x,player.y,love.mouse.getX(),love.mouse.getY()))
-		player.cooldown=player.maxCooldown
-	end
-
-	--update ducks
-	for i,duck in ipairs(allDucks) do
-		if duck.update(duck) then
-			table.remove(allDucks,i)
+		--update bubbles
+		for i,bubble in ipairs(allBubbles) do
+			if bubble.update(bubble) then
+				table.remove(allBubbles,i);
+			end
 		end
-	end
 
-	--update splashes
-	for i,splash in ipairs(allSplashes) do
-		if splash.update(splash) then
-			table.remove(allSplashes,i)
+		--make ducks
+		if love.mouse.isDown(1) and player.cooldown==0 then
+			table.insert(allDucks,Duck(player.x,player.y,love.mouse.getX(),love.mouse.getY()))
+			player.cooldown=player.upgrades.maxCooldown
 		end
+
+		--update ducks
+		for i,duck in ipairs(allDucks) do
+			if duck.update(duck) then
+				table.remove(allDucks,i)
+			end
+		end
+
+		--update splashes
+		for i,splash in ipairs(allSplashes) do
+			if splash.update(splash) then
+				table.remove(allSplashes,i)
+			end
+		end
+
+		if score.score>5+math.pow(level*10,1.5) then
+			level=level+1
+			--mode to item and stock them
+			mode="item"
+			getTwoItems()
+		end
+	elseif mode=="item" then
+		--nothing here, actually
 	end
 end
 
@@ -86,8 +101,23 @@ function love.draw()
 	rect4:draw()
 	score:draw();
 	love.graphics.print(#allDucks);
+
+	if mode=="item" then
+		drawShop()
+	end
 end
 
 function makeSplash(x,y)
 	table.insert(allSplashes,Splash(x,y));
+end
+
+function love.mousepressed(x,y,button)
+	if mode=="move" then
+
+	elseif mode=="item" then
+		if getSelected()>0 then
+			items[getSelected()].redeem()
+			mode="move"
+		end
+	end
 end
