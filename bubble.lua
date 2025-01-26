@@ -13,6 +13,7 @@ end
 --the bubble randomly, leave it false to make a custom bubble
 function Bubble:new(random,x,y,dx,dy,evil)
 	self.popped=false
+	self.noScore=false
 	self.sprite=bubbleSprites[1];
 	if random then
 		--my ass is not smart enough to optimize this even though
@@ -56,6 +57,12 @@ function Bubble:update()
 	self.y=self.y+self.dy;
 
 	require "player"
+	require "main"
+	if self.x >= player.x and self.x <= (player.x + 89 * .5) and self.y >= player.y and self.y <= (player.y + 89 * .5) then
+		health = health - 1
+		self.popped = true
+		self.noScore = true
+	end
 
 	if self.evil then
 		local d=angle_move(self.x,self.y,player.x,player.y,1);
@@ -68,11 +75,10 @@ function Bubble:update()
 
 	self.sprite=bubbleSprites[currentSprite]
 
-	require "main"
-	if self.popped and self.evil then
+	if self.popped and self.evil and self.noScore == false then
 		score:update(2)
 	end
-	if self.popped and self.evil == false then 
+	if self.popped and self.evil == false and self.noScore == false then 
 		score:update(1)
 	end
 

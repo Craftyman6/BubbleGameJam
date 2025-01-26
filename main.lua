@@ -38,6 +38,8 @@ function love.load()
 
 	level = 0;
 	swapCooldown = 3
+	--Player's health
+	health = 5
 end
 
 
@@ -133,6 +135,7 @@ function love.draw()
 	rect2:draw()
 	rect3:draw()
 	rect4:draw()
+	healthDraw(health)
 	score:draw();
 
 	if mode=="item" then

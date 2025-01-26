@@ -89,3 +89,8 @@ player=
 		love.graphics.draw(player.sprite,player.x,player.y,0,.5,.5);
 	end
 }
+
+function healthDraw(health)
+	love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
+	love.graphics.print(health, 400, 0)
+end
