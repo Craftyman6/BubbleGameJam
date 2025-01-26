@@ -1,4 +1,5 @@
 require("misc");
+require("main")
 
 Duck = Object:extend();
 
@@ -27,6 +28,8 @@ function Duck:update()
 	local currentSprite=1
 
 	self.sprite=duckSprites[currentSprite]
+
+	if math.random()<.3 then makeSplash(self.x+15,self.y+15,10) end
 
 	--check to pop bubbles
 	require "main"

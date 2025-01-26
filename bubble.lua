@@ -67,6 +67,7 @@ function Bubble:update()
 
 	self.sprite=bubbleSprites[currentSprite]
 
+	if self.health<=0 then self.popped=true end
 
 	if self.popped and self.evil and self.noScore == false then
 		score:update(2)
