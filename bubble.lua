@@ -11,44 +11,36 @@ end
 
 --Makes new bubble object. Just leave first parameter true to spawn
 --the bubble randomly, leave it false to make a custom bubble
-function Bubble:new(random,x,y,dx,dy,evil)
+function Bubble:new(evil,health)
 	self.popped=false
 	self.noScore=false
 	self.sprite=bubbleSprites[1];
-	if random then
-		--my ass is not smart enough to optimize this even though
-		--I'm 100% sure there's a way to
-		local get;
+	--my ass is not smart enough to optimize this even though
+	--I'm 100% sure there's a way to
+	local get;
+	if math.random()>.5 then
 		if math.random()>.5 then
-			if math.random()>.5 then
-				--top
-				get={math.random(0,500),-20,0,1}
-			else
-				--bottom
-				get={math.random(0,500),520,0,-1}
-			end
+			--top
+			get={math.random(0,500),-20,0,1}
 		else
-			if math.random()>.5 then
-				--left
-				get={-20,math.random(0,500),1,0}
-			else
-				--right
-				get={520,math.random(0,500),-1,0}
-			end
+			--bottom
+			get={math.random(0,500),520,0,-1}
 		end
-		self.x=get[1];
-		self.y=get[2];
-		self.dx=get[3];
-		self.dy=get[4];
-		self.evil=math.random()>.5
 	else
-		self.x=x;
-		self.y=y;
-		self.dx=dx;
-		self.dy=dy;
-		self.evil=evil
+		if math.random()>.5 then
+			--left
+			get={-20,math.random(0,500),1,0}
+		else
+			--right
+			get={520,math.random(0,500),-1,0}
+		end
 	end
-
+	self.x=get[1];
+	self.y=get[2];
+	self.dx=get[3];
+	self.dy=get[4];
+	self.evil=evil;
+	self.health=health
 
 end
 
@@ -74,6 +66,7 @@ function Bubble:update()
 	if self.evil then currentSprite=2 end
 
 	self.sprite=bubbleSprites[currentSprite]
+
 
 	if self.popped and self.evil and self.noScore == false then
 		score:update(2)

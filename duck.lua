@@ -10,12 +10,13 @@ for i,str in ipairs(duckSpritesString) do
 end
 
 --Makes a new duck object
-function Duck:new(px,py,mx,my)
-	self.speed=5
+function Duck:new(px,py,mx,my,size,speed)
+	self.speed=speed
 	self.d=angle_move(px,py,mx,my,1);
 	self.x=px+self.d.x*30
 	self.y=py+self.d.y*30
 	self.sprite=duckSprites[1]
+	self.size=size
 end
 
 function Duck:update()
@@ -30,8 +31,9 @@ function Duck:update()
 	--check to pop bubbles
 	require "main"
 	for i,bubble in ipairs(allBubbles) do
-		if math.sqrt(math.pow(self.x-bubble.x,2)+math.pow(self.y-bubble.y,2))<35 then
-			bubble.popped=true
+		if math.sqrt(math.pow(self.x-bubble.x,2)+math.pow(self.y-bubble.y,2))<30+10*self.size then
+			bubble.health=bubble.health-1
+			return true
 		end
 	end
 
@@ -41,5 +43,5 @@ function Duck:update()
 end
 
 function Duck:draw()
-	love.graphics.draw(self.sprite,self.x,self.y,0,.5,.5,25,25)
+	love.graphics.draw(self.sprite,self.x,self.y,0,self.size,self.size,25,25)
 end

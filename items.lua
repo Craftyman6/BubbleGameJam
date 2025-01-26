@@ -12,22 +12,22 @@ items={
 	{
 		name="Bowl",
 		desc="Shoot three ducks at once",
-		available=function() return player.upgrades.triple end,
+		available=function() return not player.upgrades.triple end,
 		redeem=function() player.upgrades.triple=true end,
 		sprite=getItemSprite("Bowl")
 	},
 	{
 		name="Spork",
 		desc="Shoot ducks behind you",
-		available=function() return player.upgrades.backwards end,
+		available=function() return not player.upgrades.backwards end,
 		redeem=function() player.upgrades.backwards=true end,
 		sprite=getItemSprite("Spork")
 	},
 	{
 		name="Plate",
 		desc="Swim faster",
-		available=function() return player.upgrades.boost end,
-		redeem=function() player.upgrades.boost=true end,
+		available=function() return not player.upgrades.boost end,
+		redeem=function() player.upgrades.boost=true; player.friction=.9 end,
 		sprite=getItemSprite("Plate")
 	},
 	{
@@ -47,7 +47,7 @@ items={
 	{
 		name="Chopsticks",
 		desc="Shoot ducks more rapidly",
-		available=function() return player.upgrades.maxCooldown>=5 end,
+		available=function() return player.upgrades.maxCooldown>5 end,
 		redeem=function() player.upgrades.maxCooldown=player.upgrades.maxCooldown-5 end,
 		sprite=getItemSprite("Chopsticks")
 	}
