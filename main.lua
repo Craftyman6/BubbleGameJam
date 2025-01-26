@@ -41,7 +41,7 @@ function love.load()
 	level = 0;
 	swapCooldown = 3
 	--Player's health
-	health = 5
+	playerHealth = 5
 end
 
 
@@ -55,7 +55,7 @@ function love.update()
 
 		--make bubbles
 		if timer>nextBubble then
-			table.insert(allBubbles,Bubble(math.random()>timer/50000,1+math.floor(timer/2000)));
+			table.insert(allBubbles,Bubble(math.random()>timer/50000,1))--+math.floor(timer/2000)));
 			nextBubble=timer+60-math.min(math.floor(timer/1000),30)
 		end
 
@@ -138,7 +138,7 @@ function love.draw()
 	rect2:draw()
 	rect3:draw()
 	rect4:draw()
-	healthDraw(health)
+	healthDraw(playerHealth)
 	score:draw();
 
 	if mode=="item" then

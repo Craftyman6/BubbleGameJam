@@ -51,7 +51,7 @@ function Bubble:update()
 	require "player"
 	require "main"
 	if self.x >= player.x and self.x <= (player.x + 89 * .5) and self.y >= player.y and self.y <= (player.y + 89 * .5) then
-		health = health - 1
+		playerHealth = playerHealth - 1
 		self.popped = true
 		self.noScore = true
 	end

@@ -90,7 +90,8 @@ player=
 	end
 }
 
-function healthDraw(health)
+function healthDraw(pHealthNum)
+	pHealth = string.format("Health: %d", pHealthNum)
 	love.graphics.setColor(love.math.colorFromBytes(255, 255, 255))
-	love.graphics.print(health, 400, 0)
+	love.graphics.print(pHealth, 400, 0)
 end
