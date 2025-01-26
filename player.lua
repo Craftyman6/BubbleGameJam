@@ -28,13 +28,13 @@ player=
 	--array of upgrades
 	upgrades={
 		--three ducks at a time
-		triple=true,
+		triple=false,
 		--shoot backwards as well
-		backwards=true,
+		backwards=false,
 		--boost to player speed
 		boost=false,
 		--increase duck speed
-		speed=5,
+		speed=3,
 		--increase duck size
 		size=.5,
 		--decrease cooldown

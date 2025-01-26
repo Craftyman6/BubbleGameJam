@@ -1,6 +1,7 @@
 --include other files
 require("player");
 require("items");
+require("misc");
 
 function love.load()
 	mode="move";
@@ -19,6 +20,7 @@ function love.load()
 	allSplashes={};
 	--timer that incriments every frame
 	timer=0;
+	nextBubble=0;
 	--Load game music
 	song = love.audio.newSource("Music/RubberDucky.wav", "stream")
 	song:setLooping(true)
@@ -50,8 +52,9 @@ function love.update()
 		player.update();
 
 		--make bubbles
-		if timer%60==30 then
-			table.insert(allBubbles,Bubble(true));
+		if timer>nextBubble then
+			table.insert(allBubbles,Bubble(math.random()>timer/50000,1+math.floor(timer/2000)));
+			nextBubble=timer+60-math.min(math.floor(timer/1000),30)
 		end
 
 		--update bubbles
@@ -70,10 +73,10 @@ function love.update()
 				ammount=2
 			end
 			for i=0,ammount do
-				table.insert(allDucks,Duck(player.x+15+offsets.x,player.y+15+offsets.y,love.mouse.getX(),love.mouse.getY()))
+				table.insert(allDucks,Duck(player.x+15+offsets.x,player.y+15+offsets.y,love.mouse.getX(),love.mouse.getY(),player.upgrades.size,player.upgrades.speed))
 				if player.upgrades.backwards then
 					local targetCoords=getOppositeCoords(player.x+15,player.y+15,love.mouse.getX(),love.mouse.getY())
-					table.insert(allDucks,Duck(player.x+15+offsets.x,player.y+15+offsets.y,targetCoords.x,targetCoords.y))
+					table.insert(allDucks,Duck(player.x+15+offsets.x,player.y+15+offsets.y,targetCoords.x,targetCoords.y,player.upgrades.size,player.upgrades.speed))
 				end
 				offsets=getDuckOffsets(i*2)
 			end
@@ -141,6 +144,7 @@ function love.draw()
 	if mode=="modeSwap" then
 		love.graphics.print(swapCooldown, 250, 250, 0, 2, 2)
 	end
+	love.graphics.print(timer)
 end
 
 function makeSplash(x,y)
@@ -152,7 +156,7 @@ function love.mousepressed(x,y,button)
 
 	elseif mode=="item" then
 		if getSelected()>0 then
-			items[getSelected()].redeem()
+			items[stock[getSelected()]].redeem()
 			mode="modeSwap"
 
 		end
