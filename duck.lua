@@ -36,6 +36,7 @@ function Duck:update()
 	for i,bubble in ipairs(allBubbles) do
 		if math.sqrt(math.pow(self.x-bubble.x,2)+math.pow(self.y-bubble.y,2))<30+10*self.size then
 			bubble.health=bubble.health-1
+			makeParticles(self.x+15+5*self.size,self.y+15+5*self.size,math.floor(6+self.size*5),1)
 			return true
 		end
 	end

@@ -13,7 +13,7 @@ player=
 	--y momentum
 	dy=0,
 	--player friction
-	friction=0.8,
+	friction=0.7,
 	--player speed
 	speed=1,
 	--string of all sprite filenames

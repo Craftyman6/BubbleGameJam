@@ -13,11 +13,13 @@ function love.load()
 	require "duck";
 	require "splash";
 	require "rectangle";
+	require "particle";
 	require("score");
 	--array of all objects
 	allBubbles={};
 	allDucks={};
 	allSplashes={};
+	allParticles={};
 	--timer that incriments every frame
 	timer=0;
 	nextBubble=0;
@@ -55,7 +57,7 @@ function love.update()
 
 		--make bubbles
 		if timer>nextBubble then
-			table.insert(allBubbles,Bubble(math.random()>timer/50000,1+math.floor(timer/2000)));
+			table.insert(allBubbles,Bubble(math.random()<timer/50000,math.min(4,1+math.floor(timer/5000))));
 			nextBubble=timer+60-math.min(math.floor(timer/1000),30)
 		end
 
@@ -99,6 +101,13 @@ function love.update()
 			end
 		end
 
+		--update particles
+		for i,particle in ipairs(allParticles) do
+			if particle.update(particle) then
+				table.remove(allParticles,i)
+			end
+		end
+
 		--level up
 		if score.score>=getNextLevelScore() then
 			level=level+1
@@ -117,9 +126,6 @@ function love.update()
 			swapCooldown = swapCooldown - 1
 		end
 	end
-
-
-
 end
 
 function love.draw()
@@ -128,15 +134,19 @@ function love.draw()
 	for i,splash in ipairs(allSplashes) do
 		splash.draw(splash)
 	end
+	--draw particles
+	for i,particle in ipairs(allParticles) do
+		particle.draw(particle)
+	end
 	--draw player
 	player.draw();
-	--draw bubbles
-	for i,bubble in ipairs(allBubbles) do
-		bubble.draw(bubble);
-	end
 	--draw ducks
 	for i,duck in ipairs(allDucks) do
 		duck.draw(duck);
+	end
+	--draw bubbles
+	for i,bubble in ipairs(allBubbles) do
+		bubble.draw(bubble);
 	end
 	rect1:draw()
 	rect2:draw()
@@ -178,4 +188,10 @@ end
 
 function getNextLevelScore()
 	return 10+math.floor(math.pow(level*5,1.5))
+end
+
+function makeParticles(x,y,a,cid)
+	for i=1,a do
+		table.insert(allParticles,Particle(x,y,cid))
+	end
 end

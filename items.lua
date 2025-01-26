@@ -27,7 +27,7 @@ items={
 		name="Plate",
 		desc="Swim faster",
 		available=function() return not player.upgrades.boost end,
-		redeem=function() player.upgrades.boost=true; player.friction=.9 end,
+		redeem=function() player.upgrades.boost=true; player.friction=.8 end,
 		sprite=getItemSprite("Plate")
 	},
 	{
