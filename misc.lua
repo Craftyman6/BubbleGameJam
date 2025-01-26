@@ -6,3 +6,7 @@ function angle_move(x,y, targetx, targety, speed)
 	local a=math.atan2(x-targetx,y-targety)
 	return {x=-speed*math.sin(a), y=-speed*math.cos(a)}
 end
+
+function getOppositeCoords(x,y,tx,ty)
+	return {x=x-(tx-x),y=y-(ty-y)}
+end

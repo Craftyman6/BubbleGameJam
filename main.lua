@@ -32,6 +32,7 @@ function love.load()
 	score = score(0)
 
 	level = 0;
+
 end
 
 
@@ -54,7 +55,20 @@ function love.update()
 
 		--make ducks
 		if love.mouse.isDown(1) and player.cooldown==0 then
-			table.insert(allDucks,Duck(player.x,player.y,love.mouse.getX(),love.mouse.getY()))
+			offsets={x=0,y=0}
+			ammount=0
+			if player.upgrades.triple then 
+				offsets=getDuckOffsets(-2)
+				ammount=2
+			end
+			for i=0,ammount do
+				table.insert(allDucks,Duck(player.x+15+offsets.x,player.y+15+offsets.y,love.mouse.getX(),love.mouse.getY()))
+				if player.upgrades.backwards then
+					local targetCoords=getOppositeCoords(player.x+15,player.y+15,love.mouse.getX(),love.mouse.getY())
+					table.insert(allDucks,Duck(player.x+15+offsets.x,player.y+15+offsets.y,targetCoords.x,targetCoords.y))
+				end
+				offsets=getDuckOffsets(i*2)
+			end
 			player.cooldown=player.upgrades.maxCooldown
 		end
 
@@ -103,7 +117,6 @@ function love.draw()
 	rect3:draw()
 	rect4:draw()
 	score:draw();
-	love.graphics.print(#allDucks);
 
 	if mode=="item" then
 		drawShop()
@@ -123,4 +136,9 @@ function love.mousepressed(x,y,button)
 			mode="move"
 		end
 	end
+end
+
+function getDuckOffsets(a)
+	local size = player.upgrades.size
+	return {x=35*math.cos(a)*size,y=35*math.sin(a)*size}
 end
