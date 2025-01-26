@@ -10,3 +10,7 @@ end
 function getOppositeCoords(x,y,tx,ty)
 	return {x=x-(tx-x),y=y-(ty-y)}
 end
+
+function getDrawBounce()
+	return math.floor(love.timer.getTime()*2%2)+1
+end

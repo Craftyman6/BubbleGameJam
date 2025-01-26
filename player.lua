@@ -18,7 +18,13 @@ player=
 	--player speed
 	speed=1,
 	--string of all sprite filenames
-	sprites={"duck"},
+	sprites={
+		love.graphics.newImage("Sprites/Player/Duck1.png"),
+		love.graphics.newImage("Sprites/Player/Duck2.png")
+	},
+	--negative one if flipped sprite
+	flp=1,
+	flpoffset=0,
 	--current sprite image object
 	sprite,
 	--Window size minus sprite size
@@ -74,19 +80,23 @@ player=
 			player.dx=player.dx+player.speed;
 			splash=true;
 		end
+
 		if splash and math.random()>.6 then require "main"; makeSplash(player.x+25,player.y+25,15) end
+
 		player.dx=player.dx*player.friction;
 		player.dy=player.dy*player.friction;
 
 		player.cooldown=mid(0,player.cooldown-1,player.upgrades.maxCooldown);
 
-		local currentSprite=1;
+		if player.dx>0 then player.flp=1; player.flpoffset=0 else player.flp=-1; player.flpoffset=35 end
 
-		player.sprite=love.graphics.newImage("Sprites/Player/"..player.sprites[currentSprite]..".png");
+		local currentSprite=getDrawBounce();
+
+		player.sprite=player.sprites[currentSprite];
 	end,
 	--draw function
 	draw = function()
-		love.graphics.draw(player.sprite,player.x,player.y,0,.5,.5);
+		love.graphics.draw(player.sprite,player.x+player.flpoffset,player.y,0,.5*player.flp,.5);
 	end
 }
 

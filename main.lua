@@ -46,7 +46,10 @@ function love.load()
 	upgradeSound = love.audio.newSource("Music/upgrade_cc.wav", "static")
 	itemSound =love.audio.newSource("Music/item_cc.wav", "static")
 	-- Load Background Image
-	backgroundImage = love.graphics.newImage("Background/waves.png")
+	backgroundImages = {
+		love.graphics.newImage("Background/Waves1.png"),
+		love.graphics.newImage("Background/Waves2.png")
+	}
 	rect1 = Rectangle(0, 0, 15, 500)
 	rect2 = Rectangle(0, 0, 500, 15)
 	rect3 = Rectangle(485, 0, 15, 500)
@@ -173,7 +176,7 @@ function love.update()
 end
 
 function love.draw()
-	love.graphics.draw(backgroundImage)
+	love.graphics.draw(backgroundImages[getDrawBounce()])
 	--draw splashes
 	for i,splash in ipairs(allSplashes) do
 		splash.draw(splash)

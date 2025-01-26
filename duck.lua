@@ -3,14 +3,18 @@ require("main")
 
 Duck = Object:extend();
 
+
 duckSpritesString={"Duck"};
 
 duckSound = love.audio.newSource("Music/shoot_cc.wav", "static")
 
-duckSprites={}
-for i,str in ipairs(duckSpritesString) do
-	table.insert(duckSprites,love.graphics.newImage("Sprites/SmallDuck/"..str..".png"))
-end
+
+
+duckSprites={
+	love.graphics.newImage("Sprites/SmallDuck/SmallDuck1.png"),
+	love.graphics.newImage("Sprites/SmallDuck/SmallDuck2.png")
+}
+
 
 --Makes a new duck object
 function Duck:new(px,py,mx,my,size,speed)
@@ -27,6 +31,9 @@ function Duck:new(px,py,mx,my,size,speed)
 	})
 	duckSound:setEffect("shootEffect")
 	duckSound:play()
+	self.flp=1
+	self.flpoffset=0
+
 end
 
 function Duck:update()
@@ -34,7 +41,9 @@ function Duck:update()
 	self.x=self.x+self.d.x*self.speed
 	self.y=self.y+self.d.y*self.speed
 
-	local currentSprite=1
+	if self.d.x>0 then self.flp=1;self.flpoffset=0 else self.flp=-1;self.flpoffset=30 end
+
+	local currentSprite=getDrawBounce()
 
 	self.sprite=duckSprites[currentSprite]
 
@@ -56,5 +65,5 @@ function Duck:update()
 end
 
 function Duck:draw()
-	love.graphics.draw(self.sprite,self.x,self.y,0,self.size,self.size,25,25)
+	love.graphics.draw(self.sprite,self.x+self.flpoffset,self.y,0,self.size*self.flp,self.size,25,25)
 end
